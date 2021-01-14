@@ -1,0 +1,32 @@
+@import './normalize.css';
+
+
+/*reset start*/
+*,ul.dl,ol,h1,h2,h3,h4,h5,h6,p,img,li{margin:0;padding:0;}
+img{vertical-align: middle}
+html{font-family:'微软雅黑'; -webkit-font-smoothing: antialiased;}
+a{text-decoration:none;  color:#2a2a2a;}
+strong,b,h1,h2,h3,h4,h5,h6{ font-weight:normal;}
+i,em{font-style:normal;}
+a img{border:0;}
+li{list-style:none;  }
+.clearfix:after{display:block; content:''; clear:both;}
+.clearfix{zoom:1;}
+.fl{float:left;}
+.fr{float:right;}
+table{border-collapse:collapse;}
+th,td{border:none; padding:0;}
+/*input,textarea{outline:none; -webkit-appearance: none;}*/
+img{border:none;}
+input{outline:medium;}
+input, textarea, select, button { font-family:'PingFang SC', 'Hiragino Sans GB', 'Microsoft Yahei UI', 'Microsoft Yahei', 微软雅黑, 'Segoe UI', Tahoma, 宋体b8b体, SimSun, sans-serif;}
+
+
+:root{
+    --color-text:#666;
+    --color-high-text:#ff5777;
+    --color-tint:#ff8189;
+    --color-background:#fff;
+    --font-size:14px;
+    --line-height:1.5;
+}
