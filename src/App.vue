@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import MainTabBar from './components/MainTabBar'
+import MainTabBar from 'components/MainTabBar'
 
 
 export default {
