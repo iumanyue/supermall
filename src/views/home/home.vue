@@ -29,6 +29,7 @@ import Scroll from 'components/common/scroll/Scroll.vue'
 import BackTop from 'components/content/backTop/BackTop.vue'
 
 import {getHomeMultidata,getHomeGoods} from '@/network/home.js'
+import {debounce} from 'common/utils.js'
 
 import RecommendView from './RecommendView'
 import homeSwiper from 'views/home/homeSwiper.vue'
@@ -74,7 +75,7 @@ export default {
   mounted() {
 
       // 防抖
-      const refresh = this.debounce(this.$refs.scroll.refresh,200)
+      const refresh = debounce(this.$refs.scroll.refresh,200)
 
      //监听item中图片加载完成。（事件总线$bus） 
       this.$bus.$on('itemImageLoad',()=>{
@@ -120,18 +121,7 @@ export default {
       
      
     },
-    // 防抖封装一个函数
-    debounce(func,delay){
-      let timer = null
-      return function(...args){
-        if(timer) clearTimeout(timer)
-        timer =setTimeout(() => {
-          func.apply(this,args)
-        }, delay);
-      }
-    },
-
-
+   
     // 下面都是网络请求的方法   上面都是事件监听的方法
     getHomeMultidata(){
       getHomeMultidata().then(res =>{
@@ -149,7 +139,7 @@ export default {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page+=1
 
-        // ...加载更多的
+        // ...加载更多的(完成了上拉加载更多)
         this.$refs.scroll.finishPullUp()
     })
     }
