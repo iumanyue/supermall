@@ -1,17 +1,18 @@
 <template>
   <div id="home">
       <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-
+      <tab-control :titles="['流行','新款','精选']" 
+      class="tab-control" @tabClick='tabClick2' ref="tabControl1" v-show="isTabFixed"></tab-control>
     <scroll class="content" ref="scroll" 
     :probe-type="3" 
     @scroll="contentScroll" 
     :pull-up-load='true' @pullingUp="loadMore"
     >
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners"  @swiperImageLoad="swiperImageLoad"></home-swiper>
       <recommend-view :recommends='recommends'></recommend-view>
       <feature-view></feature-view>
       <tab-control :titles="['流行','新款','精选']" 
-      class="tab-control" @tabClick='tabClick2'></tab-control>
+       @tabClick='tabClick2' ref="tabControl2" ></tab-control>
         <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
@@ -48,7 +49,10 @@ export default {
           'sell':{page:0,list:[]}
         },
         currentType:'pop',
-        isShowBackTop:false
+        isShowBackTop:false,
+        tabOffsetTop:0,
+        isTabFixed:false,
+        saveY:0
     }
   },
   components:{
@@ -73,7 +77,7 @@ export default {
      
   },
   mounted() {
-
+    
       // 防抖
       const refresh = debounce(this.$refs.scroll.refresh,200)
 
@@ -83,14 +87,22 @@ export default {
          // 重新计算可滚动的区域，比如异步加载的图片。
         //  this.$refs.scroll && this.$refs.scroll.scroll.refresh()
         refresh()
-
-
       })
+
+    
   },
   computed:{
     showGoods(){
       return this.goods[this.currentType].list
     }
+  },
+  activated() {
+    this.$refs.scroll.refresh()
+    this.$refs.scroll.scrollTo(0,this.saveY,0)
+    
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.scroll.y
   },
   methods:{
     tabClick2(index){
@@ -105,6 +117,8 @@ export default {
           this.currentType = 'sell'
           break
       }
+      this.$refs.tabControl1.currentIndex = index
+      this.$refs.tabControl2.currentIndex = index
     },
     backClick(){
       // console.log("点击了")
@@ -114,14 +128,19 @@ export default {
 
     },
     contentScroll(position){
+      // 1.判断回到顶部是否显示
       this.isShowBackTop = (-position.y)>1000
+      // 2.决定tabcontrol是否吸顶（position:fixed）
+      this.isTabFixed = (-position.y) >this.tabOffsetTop
     },
     loadMore(){
-      this.getHomeGoods(this.currentType)
-      
+      this.getHomeGoods(this.currentType)  
      
     },
-   
+    swiperImageLoad(){
+      // 获取tabcontrol的offsetTop，所有组件都有一个属性叫$el.用于获取组建中的元素
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
+    },
     // 下面都是网络请求的方法   上面都是事件监听的方法
     getHomeMultidata(){
       getHomeMultidata().then(res =>{
@@ -148,19 +167,18 @@ export default {
 </script>
 
 <style scoped>
-#home{padding-top:44px;height: 100vh;position: relative;}
+#home{height: 100vh;position: relative;}
 .home-nav{
   background-color: var(--color-tint);
   color: #ffffff;
-    position: fixed;
+    /* position: fixed;
     top: 0;
     left: 0;
     z-index: 99;
-    width: 100%;
+    width: 100%; */
 }
 .tab-control{
-  position:sticky;
-  top: 44px;
+  position: relative;;
   z-index: 9;
 }
 .content{
@@ -171,4 +189,5 @@ export default {
   right: 0;
    overflow: hidden;
 }
+
 </style>
