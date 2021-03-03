@@ -5,6 +5,8 @@
             <detail-swiper :topImages="topImages"></detail-swiper>
             <detail-base-info :goods="goods"></detail-base-info>
             <detail-goods-info :detail-info ='detailInfo' @imageLoad= 'imageLoad'></detail-goods-info>
+            <detail-params-info :item-params="itemParams"></detail-params-info>
+            <detail-comment-info :comment-info="commentInfo"></detail-comment-info>
         </scroll>
         
     </div>
@@ -15,6 +17,8 @@
     import DetailSwiper from './DetailSwiper.vue'
     import DetailBaseInfo from './DetailBaseInfo.vue'
     import DetailGoodsInfo from './DetailGoodsInfo'
+    import DetailParamsInfo from './DetailParamsInfo'
+    import DetailCommentInfo from './DetailCommentInfo'
 
     import Scroll from 'components/common/scroll/Scroll'
     
@@ -28,7 +32,9 @@ export default {
        topImages:[],
        goods:{},
        shop:{},
-       detailInfo:{}
+       detailInfo:{},
+       itemParams:{},
+       commentInfo:{}
    }
   },
   created() {
@@ -47,6 +53,12 @@ export default {
         this.shop = new Shop(data.shopInfo)
         // 4.保存商品的详情数据
         this.detailInfo = data.detailInfo
+        // 参数信息
+        this.itemParams = data.itemParams
+        // 评论xinxi
+        if(data.rate.cRate !==0){
+            this.commentInfo = data.rate.list[0]
+        }
 
     })
   },
@@ -60,7 +72,9 @@ export default {
       DetailSwiper,
       DetailBaseInfo,
       Scroll,
-      DetailGoodsInfo
+      DetailGoodsInfo,
+      DetailParamsInfo,
+      DetailCommentInfo
   }
 }
 </script>

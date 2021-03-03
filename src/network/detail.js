@@ -34,3 +34,4 @@ export class Shop{
         this.goddsCount = shopInfo.cGoods
     }
 }
+
