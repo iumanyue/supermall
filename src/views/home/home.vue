@@ -52,7 +52,8 @@ export default {
         isShowBackTop:false,
         tabOffsetTop:0,
         isTabFixed:false,
-        saveY:0
+        saveY:0,
+        itemImgListener:null
     }
   },
   components:{
@@ -82,12 +83,18 @@ export default {
       const refresh = debounce(this.$refs.scroll.refresh,200)
 
      //监听item中图片加载完成。（事件总线$bus） 
-      this.$bus.$on('itemImageLoad',()=>{
+
+    // 怼监听的事件进行保存
+      this.itemImgListener = ()=>{
+        refresh()
+      }
+
+      this.$bus.$on('itemImageLoad',this.itemImgListener
         // console.log('------------------------')
          // 重新计算可滚动的区域，比如异步加载的图片。
         //  this.$refs.scroll && this.$refs.scroll.scroll.refresh()
-        refresh()
-      })
+      
+      )
 
     
   },
@@ -102,7 +109,11 @@ export default {
     
   },
   deactivated() {
+    // 保存Y值
     this.saveY = this.$refs.scroll.scroll.y
+    // 取消全局监听
+    this.$bus.$off('itemImgLoad',this.itemImgListener)
+
   },
   methods:{
     tabClick2(index){

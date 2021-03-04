@@ -7,6 +7,7 @@
             <detail-goods-info :detail-info ='detailInfo' @imageLoad= 'imageLoad'></detail-goods-info>
             <detail-params-info :item-params="itemParams"></detail-params-info>
             <detail-comment-info :comment-info="commentInfo"></detail-comment-info>
+            <goods-list :goods= "recommends"></goods-list>
         </scroll>
         
     </div>
@@ -19,10 +20,11 @@
     import DetailGoodsInfo from './DetailGoodsInfo'
     import DetailParamsInfo from './DetailParamsInfo'
     import DetailCommentInfo from './DetailCommentInfo'
+    import GoodsList from 'components/content/goods/GoodsList.vue'
 
     import Scroll from 'components/common/scroll/Scroll'
     
-    import {getDetail,Goods,Shop} from 'network/detail'
+    import {getDetail,Goods,Shop,getRecommend} from 'network/detail'
 
 export default {
   name:'Detail',
@@ -34,7 +36,8 @@ export default {
        shop:{},
        detailInfo:{},
        itemParams:{},
-       commentInfo:{}
+       commentInfo:{},
+       recommends:[]
    }
   },
   created() {
@@ -61,6 +64,12 @@ export default {
         }
 
     })
+// 请求推荐数据
+    getRecommend().then(res=>{
+        // console.log(res)
+        this.recommends = res.data.list
+    })
+
   },
   methods: {
       imageLoad(){
@@ -74,7 +83,8 @@ export default {
       Scroll,
       DetailGoodsInfo,
       DetailParamsInfo,
-      DetailCommentInfo
+      DetailCommentInfo,
+      GoodsList
   }
 }
 </script>
