@@ -48,5 +48,5 @@ export default {
 </script>
 
 <style scoped>
-
+.info-imgs img{width: 95%;display: block;margin: 0 auto;}
 </style>
