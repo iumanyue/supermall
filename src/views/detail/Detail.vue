@@ -10,7 +10,7 @@
             <goods-list :goods= "recommends" ref="recommend"></goods-list>
         </scroll>
         <detail-bottom-bar></detail-bottom-bar>
-        
+        <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
     </div>
 </template>
 
@@ -23,14 +23,17 @@
     import DetailCommentInfo from './DetailCommentInfo'
     import DetailBottomBar from './DetailBottomBar'
     import GoodsList from 'components/content/goods/GoodsList.vue'
+   
 
     import Scroll from 'components/common/scroll/Scroll'
     
     import {getDetail,Goods,Shop,getRecommend} from 'network/detail'
     import {debounce} from 'common/utils.js'
+    import {backTopMixin} from 'common/mixin.js'
 
 export default {
   name:'Detail',
+  mixins:[backTopMixin],
   data(){
    return {
        iid:null,
@@ -112,7 +115,8 @@ export default {
         }
         }
         
-
+            // 是否显示回到顶部
+         this.isShowBackTop = (-position.y)>1000
 
 
         // for(let i =0;i<length;i++){
