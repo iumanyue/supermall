@@ -1,7 +1,9 @@
 <template>
     <div id="detail">
         <detail-nav-bar class="detail-nav" @itemClick="itemClick" ref="nav"></detail-nav-bar>
+        
         <scroll class="content" ref="scroll" :pull-up-load='true' @scroll="contentScroll" :probe-type="3">
+            <div>{{$store.state.cartList.length}}</div>
             <detail-swiper :topImages="topImages"></detail-swiper>
             <detail-base-info :goods="goods"></detail-base-info>
             <detail-goods-info :detail-info ='detailInfo' @imageLoad= 'imageLoad'></detail-goods-info>
@@ -9,7 +11,7 @@
             <detail-comment-info :comment-info="commentInfo" ref="comment"></detail-comment-info>
             <goods-list :goods= "recommends" ref="recommend"></goods-list>
         </scroll>
-        <detail-bottom-bar></detail-bottom-bar>
+        <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
         <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
     </div>
 </template>
@@ -126,6 +128,19 @@ export default {
         //         this.$refs.nav.currentIndex = this.currentIndex
         //     }
         // }
+
+      },
+    //   添加到购物车
+      addToCart(){
+        //   1.获取购物车的信息
+        const product = {}
+        product.image = this.topImages[0]
+        product.title = this.goods.title
+        product.desc = this.goods.desc
+        product.price = this.goods.realPrice
+        product.iid = this.iid
+        // iid作为唯一标识一定要传过去
+        this.$store.commit("addCart",product)
 
       }
   },
