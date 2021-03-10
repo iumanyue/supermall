@@ -8,6 +8,7 @@ Vue.use(Vuex)
 const store  = new Vuex.Store({
     state:{
         cartList:[]
+        
     },
     mutations:{
         // addCart(state,payload){
@@ -43,7 +44,12 @@ const store  = new Vuex.Store({
 
     },
     getters:{
-
+        cartLength(state){
+            return state.cartList.length
+          },
+        cartList(state){
+            return state.cartList
+        }
     },
     actions:{
 

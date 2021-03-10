@@ -3,7 +3,6 @@
         <detail-nav-bar class="detail-nav" @itemClick="itemClick" ref="nav"></detail-nav-bar>
         
         <scroll class="content" ref="scroll" :pull-up-load='true' @scroll="contentScroll" :probe-type="3">
-            <div>{{$store.state.cartList.length}}</div>
             <detail-swiper :topImages="topImages"></detail-swiper>
             <detail-base-info :goods="goods"></detail-base-info>
             <detail-goods-info :detail-info ='detailInfo' @imageLoad= 'imageLoad'></detail-goods-info>
@@ -162,4 +161,5 @@ export default {
 #detail{position: relative;z-index: 9;background-color: #ffffff;height: 100vh;}
 .content{height: calc(100% - 102px);}
 .detail-nav{position: relative;z-index: 9;background-color: #ffffff;}
+
 </style>

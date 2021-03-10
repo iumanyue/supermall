@@ -44,4 +44,6 @@ export default {
 .info-param-key{width: 95px;}
 .info-param{border-top: 1px solid #eee;}
 .param-value{color: aqua;}
+.info-img img{    width: 95%;margin: 10px auto;display: block;}
+
 </style>
