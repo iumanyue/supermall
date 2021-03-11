@@ -3,6 +3,7 @@
         <scroll class="content" :pullUpLoad="true" ref="scroll">
             <cart-list-item v-for="(item,index) in cartList" :key="index" :product="item"></cart-list-item>   
         </scroll>
+       
     </div>
 </template>
 
@@ -10,6 +11,7 @@
 import {mapGetters} from 'vuex'
 import Scroll from 'components/common/scroll/Scroll'
 import cartListItem from './cartListItem'
+
 
 export default {
   name:'cartList',
@@ -34,5 +36,5 @@ export default {
 
 <style scoped>
 .cart-list{height: 100vh;}
-.content{height:calc(100% - 93px);overflow: hidden;}
+.content{height:calc(100vh - 93px - 40px);overflow: hidden;}
 </style>

@@ -5,12 +5,15 @@
     </nav-bar>
     <!-- 下面是一个商品列表 -->
     <cart-list></cart-list>
+     <cart-bottom-bar></cart-bottom-bar>
   </div>
 </template>
 
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import CartList from 'views/shopcart/cartList'
+import cartBottomBar from './cartBottomBar'
+
 
 import {mapGetters} from 'vuex'
 export default {
@@ -22,7 +25,8 @@ export default {
   },
   components:{
     NavBar,
-    CartList
+    CartList,
+    cartBottomBar
   },
   computed:{
     ...mapGetters(['cartLength']) 
