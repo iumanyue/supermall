@@ -1,7 +1,7 @@
 <template>
 <div class="cartBar">
-    <div class="checkAll" @click="allChecked">
-        <check-button class="btn"></check-button>
+    <div class="checkAll">
+        <check-button class="btn" :is-checked="isSelectAll"  @click.native="allChecked"></check-button>
         <span class="all">全选</span>
     </div>
         <div class="price">
@@ -36,21 +36,41 @@ export default {
       },
       checkLength(){
         return this.$store.state.cartList.filter(item => item.checked).length
+    },
+      isSelectAll(){
+
+     if (this.$store.state.cartList.length ===0) return false
+
+           //  方法1                             过滤没有被选中的，如果有长度， return false（取反）
+        //   return !(this.$store.state.cartList.filter(item => !item.checked).length)
+        // 方法二
+    
+        // return !(this.$store.state.cartList.find(item=>!item.checked))
+        // 方法三
+        for(let item of this.$store.state.cartList){
+            if(!item.checked){
+                return false
+            }
+        }
+        return true
     }
   },
   methods: {
       allChecked(){
-          if(this.$store.state.cartList.length>=1){
-             
+          if(this.isSelectAll){
+              this.$store.state.cartList.forEach(item =>item.checked = false)
+          }else{
+              this.$store.state.cartList.forEach(item =>item.checked = true)
           }
       }
+       
   },
     
 }
 </script>
 
 <style scoped>
-.cartBar{height: 40px;background-color: red;width: 100%;position: fixed;bottom: 49px;}
+.cartBar{height: 40px;width: 100%;position: fixed;bottom: 49px;}
 .checkAll{width: 80px;display: flex;align-items: center;height: 40px;justify-content: center;}
 .btn{width: 20px;height: 20px;}
 .all{padding: 10px 5px;color:darkblue;}
