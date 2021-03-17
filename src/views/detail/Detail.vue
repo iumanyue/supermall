@@ -12,7 +12,9 @@
         </scroll>
         <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
         <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
+        <!-- <toast :message="message" :show="show"></toast> -->
     </div>
+    
 </template>
 
 <script>
@@ -24,6 +26,8 @@
     import DetailCommentInfo from './DetailCommentInfo'
     import DetailBottomBar from './DetailBottomBar'
     import GoodsList from 'components/content/goods/GoodsList.vue'
+
+    // import Toast from 'components/common/toast/Toast'
    
 
     import Scroll from 'components/common/scroll/Scroll'
@@ -47,7 +51,9 @@ export default {
        recommends:[],
        themeTopYs:[],
        getThemeTopY:null,
-       currentIndex:0
+       currentIndex:0,
+      //  message:'',
+      //  show:false
 
    }
   },
@@ -139,7 +145,25 @@ export default {
         product.price = this.goods.realPrice
         product.iid = this.iid
         // iid作为唯一标识一定要传过去
-        this.$store.commit("addCart",product)
+        // this.$store.commit("addCart",product)  代码重构在mutaitions里面用
+
+
+//      也可以用mapActions this.addCart(product).then   
+        this.$store.dispatch("addCart",product).then(res=>{
+          console.log(res)
+          // this.show = true;
+          // this.message = res
+
+          // setTimeout(()=>{
+          //   this.show = false;
+          //   this.message = ''
+          // },1500)
+
+          this.$toast.show(res)
+
+        })
+
+        // 
 
       }
   },
@@ -152,7 +176,8 @@ export default {
       DetailParamsInfo,
       DetailCommentInfo,
       GoodsList,
-      DetailBottomBar
+      DetailBottomBar,
+      // Toast
   }
 }
 </script>

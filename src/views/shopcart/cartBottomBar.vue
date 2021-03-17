@@ -7,7 +7,7 @@
         <div class="price">
             总价格{{totalPrice}}
         </div>
-        <div class="pay">
+        <div class="pay" @click="isChooseClick">
             去结算{{checkLength}}
         </div>
 </div>
@@ -62,11 +62,18 @@ export default {
           }else{
               this.$store.state.cartList.forEach(item =>item.checked = true)
           }
-      }
+      },
+      isChooseClick(){
+        if(!this.isSelectAll){
+            this.$toast.show('请至少选择一件商品')
+        }
+           
+    }
+           
+    }
        
-  },
-    
-}
+  }
+        
 </script>
 
 <style scoped>
